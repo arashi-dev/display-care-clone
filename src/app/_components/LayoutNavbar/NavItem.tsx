@@ -83,7 +83,7 @@ const NavItem: React.FC<NavItemProps> = ({ hide, isAnimating, addAnimation, side
 
                     <div className="overflow-hidden">
                         <motion.p
-                            className={`vertical-text rotate-180 text-4xl/none text-white`}
+                            className={`vertical-text rotate-180 text-4xl/none text-white font-serif`}
                             variants={{
                                 hidden: {
                                     x: "100%",

@@ -31,7 +31,7 @@ const LayoutNavbar: React.FC<LayoutNavbarProps> = ({ children, links }) => {
             )), [addAnimation, isAnimating, links, linksDetails])}
 
             <Main
-                linksAmount={links.length}
+                linksAmount={links.length - 1}
                 leftLinksAmount={leftLinksAmount}
                 isAnimating={isAnimating}
             >

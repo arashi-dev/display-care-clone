@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 type ContainerProps = React.PropsWithChildren<{
     className?: string;
     style?: React.CSSProperties;
 }>
 
-const Container: React.FC<ContainerProps> = ({ children, className = "", style }) => {
+const Container = forwardRef<HTMLDivElement, ContainerProps>(({ children, className = "", style }, ref) => {
     return (
         <div
-            className={`w-full p-[2vw] ${className}`}
+            ref={ref}
+            className={`w-full px-[6vw] ${className}`}
             style={style}
         >{children}</div>
     )
-}
+})
+
+Container.displayName = "Container"
 
 export default Container

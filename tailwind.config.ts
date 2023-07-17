@@ -5,9 +5,17 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontSize: {
+        "3xs": ".5rem",
+        "2xs": ".65rem",
+      },
       colors: {
         "light-salmon": "#ff9776",
         "medium-purple": "#8283da",
+      },
+      fontFamily: {
+        serif: ["var(--font-giselle)"],
+        sans: ["var(--font-gilroy)"],
       },
     },
   },
@@ -17,6 +25,13 @@ export default {
         ".vertical-text": {
           writingMode: "vertical-rl",
           textOrientation: "mixed",
+        },
+        ".no-scrollbar": {
+          msOverflowStyle: "none",
+          scrollbarWidth: "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         },
       });
     }),

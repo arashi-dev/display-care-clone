@@ -1,15 +1,34 @@
 import React from 'react'
-import Container from '../Container'
+import LogoSvg from './LogoSvg'
+import Link from 'next/link'
+import { ArrowRight } from 'iconsax-react'
+import HeaderContainer from './Container'
 
 const Header: React.FC = () => {
   return (
-    <Container className="flex">
-        <div className="">display.care (CLONE)</div>
+    <HeaderContainer>
+      <div>
+        <LogoSvg className="inline-block" />
 
-        <div className="uppercase ml-5">a care oriented DESIGNS STUDIO</div>
+        <p className="ml-5 font-serif inline-block text-3xl font-thin text-slate-700 align-middle">
+          Display
+          <span className="text-3xs font-bold font-sans align-top absolute -top-0.5 inline-block">TM</span>
+        </p>
+      </div>
 
-        <a className='ml-auto'>Contact</a>
-    </Container>
+      <div className="uppercase ml-36 font-sans text-2xs/tight font-thin text-gray-500">a care oriented<br />designs studio</div>
+
+      <Link
+        href="#"
+        className="ml-auto w-max px-7 py-3.5 rounded-full text-xl bg-light-salmon text-white font-sans flex items-center">
+        Contact
+
+        <ArrowRight
+          size="24"
+          color="white"
+        />
+      </Link>
+    </HeaderContainer>
   )
 }
 

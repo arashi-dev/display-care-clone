@@ -4,6 +4,7 @@ import { useViewportSize } from '@mantine/hooks'
 import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import { LayoutContext } from './contexts'
 
 type MainProps = React.PropsWithChildren<{
     linksAmount: number;
@@ -12,8 +13,10 @@ type MainProps = React.PropsWithChildren<{
 }>
 
 const Main: React.FC<MainProps> = ({ leftLinksAmount, linksAmount, isAnimating, children }) => {
-    const { width } = useViewportSize()
+    const viewport = useViewportSize()
     const pathname = usePathname()
+
+    const width = viewport.width - (linksAmount * viewport.width * .09)
 
     return (
         <motion.main
@@ -21,12 +24,15 @@ const Main: React.FC<MainProps> = ({ leftLinksAmount, linksAmount, isAnimating, 
             initial={{ opacity: 0 }}
             animate={!isAnimating ? { opacity: 1 } : undefined}
             transition={{ duration: .3, ease: "easeInOut" }}
+            className="pt-32"
             style={{
-                width: width - (linksAmount * width * .09),
-                marginLeft: leftLinksAmount * width * .09,
+                width,
+                marginLeft: leftLinksAmount * viewport.width * .09,
             }}
         >
-            {children}
+            <LayoutContext.Provider value={{ width }}>
+                {children}
+            </LayoutContext.Provider>
         </motion.main>
     )
 }
