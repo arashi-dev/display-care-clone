@@ -72,12 +72,12 @@ const About: React.FC = () => {
                         <video className="z-[1] relative" src="/videos/about-us-animation.webm" controls={false} autoPlay muted loop />
                     </div>
 
-                    <div className="flex justify-between mt-16">
-                        <p className="flex-1 mr-24 font-sans text-base/tight text-white opacity-80">
+                    <div className="flex justify-between mt-16 md:flex-row flex-col">
+                        <p className="md:full md:mr-24 md:text-base/tight flex-1 font-sans text-lg/snug w-3/4 text-white opacity-80">
                             Designing for inclusivity, not only assists people with disabilities but benefits everyone. Through our practice, ‘Display’ creates person centred products and services that are accessible for people of all abilities.
                         </p>
 
-                        <p className="flex-1 mr-24 font-sans text-base/tight text-white opacity-80">
+                        <p className="md:full md:mr-24 md:text-base/tight flex-1 font-sans text-lg/snug w-3/4 text-white opacity-80 mt-10">
                             Every person differs in the way they comprehend, communicate, see, and handle the world. We strive for our work to reflect this diversity. We research extensively and collaborate closely only with those who share a vision of inclusivity and accessibility for all.
                         </p>
                     </div>
