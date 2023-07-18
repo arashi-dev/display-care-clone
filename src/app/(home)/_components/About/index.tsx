@@ -77,7 +77,7 @@ const About: React.FC = () => {
                             Designing for inclusivity, not only assists people with disabilities but benefits everyone. Through our practice, ‘Display’ creates person centred products and services that are accessible for people of all abilities.
                         </p>
 
-                        <p className="md:full md:mr-24 md:text-base/tight flex-1 font-sans text-lg/snug w-3/4 text-white opacity-80 mt-10">
+                        <p className="md:full md:mr-24 md:text-base/tight md:mt-0 flex-1 font-sans text-lg/snug w-3/4 text-white opacity-80 mt-10">
                             Every person differs in the way they comprehend, communicate, see, and handle the world. We strive for our work to reflect this diversity. We research extensively and collaborate closely only with those who share a vision of inclusivity and accessibility for all.
                         </p>
                     </div>
