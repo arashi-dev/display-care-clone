@@ -12,7 +12,7 @@ export const giselle = localFont({
     },
     {
       path: "./FHGiselle-Bold.woff2",
-      weight: "600",
+      weight: "800",
     },
   ],
   fallback: ["Times New Roman", "serif"],
