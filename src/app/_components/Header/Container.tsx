@@ -13,7 +13,7 @@ const HeaderContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
         <>
             <div style={{ height: element.height }} className="mt-16" />
             
-            <Container ref={element.ref} className="fixed top-14 flex items-center" style={{ width }}>
+            <Container ref={element.ref} className="fixed top-14 flex items-center z-50" style={{ width }}>
                 {children}
             </Container>
         </>
