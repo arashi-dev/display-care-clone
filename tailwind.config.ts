@@ -8,6 +8,7 @@ export default {
       fontSize: {
         "3xs": ".5rem",
         "2xs": ".65rem",
+        "10xl": "10rem"
       },
       colors: {
         "light-salmon": "#ff9776",

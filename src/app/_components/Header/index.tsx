@@ -20,10 +20,11 @@ const Header: React.FC = () => {
 
       <Link
         href="#"
-        className="ml-auto w-max px-7 py-3.5 rounded-full text-xl bg-light-salmon text-white font-sans flex items-center">
+        className="ml-auto w-max px-6 py-3 rounded-full bg-light-salmon text-white font-sans flex items-center">
         Contact
 
         <ArrowRight
+          className="ml-10"
           size="24"
           color="white"
         />

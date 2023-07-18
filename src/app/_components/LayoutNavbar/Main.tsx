@@ -24,7 +24,7 @@ const Main: React.FC<MainProps> = ({ leftLinksAmount, linksAmount, isAnimating, 
             initial={{ opacity: 0 }}
             animate={!isAnimating ? { opacity: 1 } : undefined}
             transition={{ duration: .3, ease: "easeInOut" }}
-            className="pt-32"
+            className="pt-24"
             style={{
                 width,
                 marginLeft: leftLinksAmount * viewport.width * .09,
