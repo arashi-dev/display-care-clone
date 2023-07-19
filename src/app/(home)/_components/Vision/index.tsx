@@ -53,7 +53,7 @@ const Vision: React.FC = () => {
             </div>
 
             <div className="mt-32 flex flex-col md:flex-row">
-                <div className="flex-1 bg-orange-100 relative mb-24 md:mb-0">
+                <div className="flex-1 bg-[#f9f5ed] relative mb-24 md:mb-0">
                     <video className="scale-75" src="/videos/vision-animation.webm" controls={false} autoPlay muted loop />
                 </div>
 
