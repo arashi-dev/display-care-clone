@@ -46,7 +46,7 @@ const Vision: React.FC = () => {
               <motion.span
                 variants={fadeUpVariants}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="block whitespace-pre-wrap font-serif text-[3.5rem]/none text-zinc-700"
+                className="block whitespace-pre-wrap text-center font-serif text-5xl/none text-zinc-700 md:text-left md:text-[3.5rem]/none"
               >
                 {line}
               </motion.span>
@@ -68,9 +68,11 @@ const Vision: React.FC = () => {
         </div>
 
         <div className="mb-16 flex gap-5 md:w-1/3 md:flex-col md:pl-20">
-          <p className="font-serif text-8xl font-semibold text-zinc-700">15%</p>
+          <p className="font-serif text-6xl font-semibold text-zinc-700 md:text-8xl">
+            15%
+          </p>
 
-          <div className="w-1/2 md:w-auto">
+          <div className="md:w-auto">
             <p className="font-sans text-[.9rem] text-zinc-500">
               Of the world’s population experience some form of disability. This
               number will double by 2050.

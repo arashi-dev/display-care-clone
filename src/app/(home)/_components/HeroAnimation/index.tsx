@@ -3,10 +3,10 @@ import Container from "~/app/_components/Container";
 
 const HeroAnimation: React.FC = () => {
   return (
-    <Container>
+    <Container className="mt-20 md:mt-0">
       <div className="relative">
         <svg
-          className="absolute left-0 top-0 h-full w-full md:hidden"
+          className="absolute bottom-0 left-0 right-0 top-0 block md:hidden"
           viewBox="0 0 337 426"
         >
           <g stroke="#000" strokeWidth=".91" opacity=".1">
@@ -15,7 +15,7 @@ const HeroAnimation: React.FC = () => {
         </svg>
 
         <svg
-          className="absolute left-0 top-0 hidden h-full w-full md:block"
+          className="absolute bottom-0 left-0 right-0 top-0 hidden md:block"
           viewBox="0 0 1051 375"
         >
           <g stroke="#000" opacity=".1">
@@ -24,8 +24,17 @@ const HeroAnimation: React.FC = () => {
         </svg>
 
         <video
-          className="relative z-[1]"
+          className="relative z-[1] hidden mb:block"
           src="/videos/hero-animation.webm"
+          controls={false}
+          autoPlay
+          muted
+          loop
+        />
+
+        <video
+          className="relative z-[1] md:hidden"
+          src="/videos/hero-mobile-animation.webm"
           controls={false}
           autoPlay
           muted

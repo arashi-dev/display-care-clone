@@ -30,7 +30,7 @@ const About: React.FC = () => {
   const animationBackgroundSize = useElementSize();
 
   return (
-    <Container className="mt-36 bg-[#645577] py-28">
+    <Container className="mt-24 bg-[#645577] py-28 md:mt-36">
       <div className="flex justify-between">
         <motion.div
           initial="initial"
@@ -44,7 +44,7 @@ const About: React.FC = () => {
               <motion.span
                 variants={fadeUpVariants}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="block whitespace-pre-wrap font-serif text-[3.5rem]/none text-white"
+                className="block whitespace-pre-wrap font-serif text-5xl/none text-white md:text-[3.5rem]/none"
               >
                 {line}
               </motion.span>
@@ -52,7 +52,7 @@ const About: React.FC = () => {
           ))}
         </motion.div>
 
-        <p className="min-w-max font-sans uppercase text-white opacity-50">
+        <p className="hidden min-w-max font-sans uppercase text-white opacity-50 md:block">
           About Us
         </p>
       </div>

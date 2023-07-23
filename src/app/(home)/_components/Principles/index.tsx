@@ -52,12 +52,12 @@ const ItemRow: React.FC<ItemData> = ({ icon: Icon, label, text }) => {
 
 const ItemSquare: React.FC<ItemData> = ({ icon: Icon, label }) => {
   return (
-    <li className="h-60 w-full">
-      <div className="flex aspect-square h-32 items-center justify-center rounded-bl-3xl rounded-tr-3xl bg-orange-50">
+    <li>
+      <div className="flex aspect-square w-full items-center justify-center rounded-bl-3xl rounded-tr-3xl bg-orange-50">
         <Icon className="w-3/4" />
       </div>
 
-      <p className="mt-5 block font-serif text-xs text-zinc-500">{label}</p>
+      <p className="mt-5 block font-serif text-xs sm:text-lg text-zinc-500">{label}</p>
     </li>
   );
 };
@@ -73,7 +73,7 @@ const Principles: React.FC = () => {
         <span className="text-rose-400">which guide us</span>
       </h2>
 
-      <ul className="mt-14 list-none columns-2 gap-x-5 md:mt-7 md:columns-1 lg:ml-20 lg:mr-5 lg:mt-14">
+      <ul className="mt-14 grid list-none grid-cols-2 gap-x-5 gap-y-14 md:mt-7 md:grid-cols-1 md:gap-0 lg:ml-20 lg:mr-5 lg:mt-14">
         {items.map((data) =>
           width >= 768 ? (
             <ItemRow key={data.label} {...data} />

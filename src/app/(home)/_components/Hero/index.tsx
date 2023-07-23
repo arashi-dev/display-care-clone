@@ -57,23 +57,23 @@ const opacityVariants: Variants = {
 const Hero = () => {
   return (
     <motion.div initial="initial" animate="animate" exit="initial">
-      <MotionConfig transition={{ delay: 1, duration: 1, ease: "easeOut" }}>
+      <MotionConfig transition={{ duration: 1, ease: "easeOut" }}>
         <Container>
-          <h1 className="font-serif text-[10vw]/none text-zinc-700">
+          <h1 className="font-serif text-[18vw]/none text-zinc-700 md:text-[10vw]/none">
             <span className="flex items-baseline">
               <span className="overflow-hidden">
                 <motion.span
                   variants={titleVariants}
-                  className="block h-[12vw]"
+                  className="block h-[20vw] md:h-[12vw]"
                 >
                   Shaping
                 </motion.span>
               </span>
 
-              <span className="ml-11 overflow-hidden">
+              <span className="ml-3 overflow-hidden md:ml-11">
                 <motion.svg
                   variants={fadeInVariants}
-                  className="w-[5vw] fill-light-salmon"
+                  className="w-[9vw] fill-light-salmon md:w-[5vw]"
                   viewBox="0 0 75 52"
                   fill="none"
                   aria-hidden="true"
@@ -86,21 +86,35 @@ const Hero = () => {
             </span>
 
             <span className="flex">
-              <span className="overflow-hidden">
+              <span className="hidden overflow-hidden md:block">
                 <motion.span variants={opacityVariants} className="block">
                   <FlowerSvg className="ml-14 inline-block w-[2.5vw] fill-light-salmon" />
                 </motion.span>
               </span>
 
-              <span className="overflow-hidden">
-                <motion.span variants={titleVariants} className="ml-14 block">
-                  Care Sector
-                </motion.span>
-              </span>
+              <div>
+                <span className="ml-14 hidden overflow-hidden md:block">
+                  <motion.span variants={titleVariants} className="block">
+                    Care Sector
+                  </motion.span>
+                </span>
+
+                <span className="ml-[15vw] block overflow-hidden md:hidden">
+                  <motion.span variants={titleVariants} className="block">
+                    Disability
+                  </motion.span>
+                </span>
+
+                <span className="ml-[5vw] block overflow-hidden md:hidden">
+                  <motion.span variants={titleVariants} className="block">
+                    Sector
+                  </motion.span>
+                </span>
+              </div>
             </span>
           </h1>
 
-          <p className="ml-[17vw] mt-20 text-left font-sans text-base/tight text-zinc-500">
+          <p className="ml-4 mt-10 text-left font-sans text-sm/tight text-zinc-500 md:ml-[17vw] md:mt-20 md:text-base/tight">
             <span className="block overflow-hidden">
               <motion.span variants={fadeInVariants} className="block">
                 We research, plan, design and innovate
@@ -120,7 +134,7 @@ const Hero = () => {
 
           <motion.span
             variants={opacityVariants}
-            className="relative ml-auto block w-12"
+            className="relative ml-auto hidden w-12 md:block"
           >
             <svg
               viewBox="0 0 16 46"

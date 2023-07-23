@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Container from "../Container";
 import { LayoutContext } from "../LayoutNavbar/contexts";
 import { AnimatePresence, motion } from "framer-motion";
+import { useWindowEvent } from "@mantine/hooks";
 
 type HeaderContainerProps = React.PropsWithChildren<{
   isNavOpened: boolean;
@@ -19,9 +20,13 @@ const HeaderContainer: React.FC<HeaderContainerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [initialHeight, setInitialHeight] = useState(0);
 
-  useEffect(() => {
-    setInitialHeight(containerRef.current?.clientHeight || 0);
-  }, []);
+  useWindowEvent("resize", () =>
+    setInitialHeight(containerRef.current?.clientHeight || 0),
+  );
+  
+  useWindowEvent("orientationchange", () =>
+    setInitialHeight(containerRef.current?.clientHeight || 0),
+  );
 
   return (
     <>
