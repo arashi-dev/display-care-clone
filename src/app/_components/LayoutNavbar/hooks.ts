@@ -1,4 +1,4 @@
-import { usePrevious, useViewportSize } from "@mantine/hooks";
+import { usePrevious, useWindowEvent } from "@mantine/hooks";
 import {
   type AnimationControls,
   type Transition,
@@ -16,7 +16,7 @@ import type { Promisable } from "type-fest";
 import { type NavItemProps } from "./NavItem";
 import { sleep } from "~/utils/sleep";
 import { usePathname } from "next/navigation";
-import type { NavLinkData } from "./types";
+import { type NavLinkData } from "../links";
 
 export const useAnimationQueue = () => {
   const animationQueueRef = useRef<
@@ -47,7 +47,7 @@ export const useAnimationQueue = () => {
       });
 
       runningAnimationsKeyRef.current = runningAnimationsKeyRef.current.filter(
-        (key) => key !== first.key
+        (key) => key !== first.key,
       );
     };
 
@@ -69,10 +69,10 @@ export const useAnimationQueue = () => {
   const addAnimation = useCallback(
     (
       key: string | number,
-      animate: (next: () => Promise<void>) => Promisable<void>
+      animate: (next: () => Promise<void>) => Promisable<void>,
     ) => {
       const prevIndex = animationQueueRef.current.findIndex(
-        (item) => item.key === key
+        (item) => item.key === key,
       );
 
       const data = {
@@ -98,7 +98,7 @@ export const useAnimationQueue = () => {
         void runAnimationQueue();
       }
     },
-    [runAnimationQueue]
+    [runAnimationQueue],
   );
 
   useLayoutEffect(() => {
@@ -111,18 +111,23 @@ export const useAnimationQueue = () => {
   } as const;
 };
 
+export type LinkDetail = {
+  index: number;
+  order: number;
+  side: "left" | "right";
+  active: boolean;
+};
+
 export const useLinksDetails = (links: NavLinkData[]) => {
   const pathname = usePathname();
 
-  const [linksDetails, setLinksDetails] = useState<
-    { index: number; order: number; side: "left" | "right"; active: boolean }[]
-  >(() =>
+  const [linksDetails, setLinksDetails] = useState<LinkDetail[]>(() =>
     links.map((_, i) => ({
       index: links.length - 1 - i,
       order: i,
       side: "left",
       active: false,
-    }))
+    })),
   );
 
   const switchLinkSide = useCallback(
@@ -150,7 +155,7 @@ export const useLinksDetails = (links: NavLinkData[]) => {
             : n++,
       }));
     },
-    []
+    [],
   );
 
   const move = useCallback(
@@ -175,7 +180,7 @@ export const useLinksDetails = (links: NavLinkData[]) => {
         }));
       });
     },
-    [links, pathname, switchLinkSide]
+    [links, pathname, switchLinkSide],
   );
 
   useEffect(() => {
@@ -186,14 +191,14 @@ export const useLinksDetails = (links: NavLinkData[]) => {
     () =>
       [...linksDetails]
         .sort((a, b) =>
-          a.side === "right" ? a.order - b.order : b.order - a.order
+          a.side === "right" ? a.order - b.order : b.order - a.order,
         )
         .sort(({ side }) => (side === "left" ? -1 : 1))
         .map(({ index, order, side, active }, i, arr) => {
           const neighbors = arr.filter((link) => link.side === side);
 
           const indexInNeighbors = neighbors.findIndex(
-            (link) => link.index === index
+            (link) => link.index === index,
           );
 
           return {
@@ -202,7 +207,7 @@ export const useLinksDetails = (links: NavLinkData[]) => {
                 0,
                 indexInNeighbors + 1 < neighbors.length - 1
                   ? indexInNeighbors + 1
-                  : indexInNeighbors
+                  : indexInNeighbors,
               )
               .some((link) => link.active)
               ? order - 1
@@ -212,16 +217,17 @@ export const useLinksDetails = (links: NavLinkData[]) => {
             active,
           };
         }),
-    [linksDetails]
+    [linksDetails],
   );
 };
 
 export const useCreateEdgeStyles = () => {
-  const { width } = useViewportSize();
-  const NAV_ITEM_WIDTH = width * 0.09;
-
   const createEdgeStyles = useCallback(
     (side: "left" | "right", hide: boolean, order: number) => {
+      const width = typeof window !== "undefined" ? window.innerWidth : 0;
+
+      const NAV_ITEM_WIDTH = width * 0.09;
+
       const firstEdgeStyles = (
         side === "right"
           ? { right: order * NAV_ITEM_WIDTH }
@@ -240,7 +246,7 @@ export const useCreateEdgeStyles = () => {
 
       return [firstEdgeStyles, secondEdgeStyles] as const;
     },
-    [NAV_ITEM_WIDTH, width]
+    [],
   );
 
   return createEdgeStyles;
@@ -259,7 +265,7 @@ export const useEdgeStyles = ({
 
   const [firstEdgeStyles, secondEdgeStyles] = useMemo(
     () => createEdgeStyles(side, hide, order),
-    [createEdgeStyles, hide, order, side]
+    [createEdgeStyles, hide, order, side],
   );
 
   const [prevFirstEdgeStyles, prevSecondEdgeStyles] = useMemo(
@@ -270,10 +276,10 @@ export const useEdgeStyles = ({
         ? createEdgeStyles(
             side === "left" ? "right" : "left",
             prevHide,
-            prevOrder
+            prevOrder,
           )
         : [],
-    [createEdgeStyles, prevHide, prevOrder, prevSide, side]
+    [createEdgeStyles, prevHide, prevOrder, prevSide, side],
   );
 
   return {
@@ -382,4 +388,22 @@ export const useNavItemAnimation = ({
     prevSecondEdgeStyles,
     secondEdgeStyles,
   ]);
+
+  const createEdgeStyles = useCreateEdgeStyles();
+
+  const resizeHandler = useCallback(() => {
+    const [firstEdgeStyles, secondEdgeStyles] = createEdgeStyles(
+      side,
+      hide,
+      order,
+    );
+
+    controls.set({
+      ...firstEdgeStyles,
+      ...secondEdgeStyles,
+    });
+  }, [controls, createEdgeStyles, hide, order, side]);
+
+  useWindowEvent("resize", resizeHandler);
+  useWindowEvent("orientationchange", resizeHandler);
 };

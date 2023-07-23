@@ -1,13 +1,9 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 
 const Page = () => {
-  return (
-    <>
-      Resources
-    </>
-  )
-}
+  return <>Resources</>;
+};
 
-export default Page
+export default Page;
