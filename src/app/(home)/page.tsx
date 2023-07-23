@@ -4,6 +4,7 @@ import HeroAnimation from "./_components/HeroAnimation";
 import About from "./_components/About";
 import Vision from "./_components/Vision";
 import Principles from "./_components/Principles";
+import Featured from "./_components/Featured";
 
 const Page = () => {
   return (
@@ -17,6 +18,8 @@ const Page = () => {
       <Vision />
 
       <Principles />
+
+      <Featured />
     </div>
   );
 };
