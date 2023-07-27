@@ -15,7 +15,7 @@ const HeroAnimation: React.FC = () => {
         </svg>
 
         <svg
-          className="absolute bottom-0 left-0 right-0 top-0 hidden md:block"
+          className="absolute bottom-0 left-0 right-0 top-1/2 -translate-y-1/2 hidden md:block"
           viewBox="0 0 1051 375"
         >
           <g stroke="#000" opacity=".1">
@@ -24,7 +24,7 @@ const HeroAnimation: React.FC = () => {
         </svg>
 
         <video
-          className="relative z-[1] hidden mb:block"
+          className="relative z-[1] hidden md:block"
           src="/videos/hero-animation.webm"
           controls={false}
           autoPlay
