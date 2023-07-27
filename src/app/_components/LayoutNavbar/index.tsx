@@ -6,6 +6,7 @@ import Main from "./Main";
 import { useViewportSize } from "@mantine/hooks";
 import DesktopNav from "./DesktopNav";
 import { type NavLinkData } from "../links";
+import Footer from "./Footer";
 
 type LayoutNavbarProps = React.PropsWithChildren<{
   links: NavLinkData[];
@@ -39,6 +40,8 @@ const LayoutNavbar: React.FC<LayoutNavbarProps> = ({ children, links }) => {
         isAnimating={isAnimating}
       >
         {children}
+
+        <Footer />
       </Main>
     </div>
   );
