@@ -21,7 +21,7 @@ const projects: ProjectProps[] = [
       },
       contentPosition: "right",
       imageSrc: PulseAssistImage,
-      url: "/works/pulse-assist",
+      url: "/works/pulse-assist" as never,
     },
     {
       color: "salmon",
@@ -34,7 +34,7 @@ const projects: ProjectProps[] = [
       },
       contentPosition: "left",
       imageSrc: SdaISaintImage,
-      url: "/works/sda-i-saint",
+      url: "/works/sda-i-saint" as never,
     },
     {
       color: "green",
@@ -47,7 +47,7 @@ const projects: ProjectProps[] = [
       },
       contentPosition: "right",
       imageSrc: SpringFlatsImage,
-      url: "/works/spring-flats",
+      url: "/works/spring-flats" as never,
     },
   ];
 
