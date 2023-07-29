@@ -1,4 +1,5 @@
 import { ArrowCircleRight2, Back } from "iconsax-react";
+import Link, { type LinkProps } from "next/link";
 import React from "react";
 import Container from "~/app/_components/Container";
 
@@ -66,7 +67,13 @@ const SmileIcon: React.FC = () => {
   );
 };
 
-const Featured: React.FC = () => {
+type FeaturedProps = {
+  title: string;
+  caption: string;
+  url: LinkProps<"">["href"];
+};
+
+const Featured: React.FC<FeaturedProps> = ({ caption, title, url }) => {
   return (
     <>
       <div className="hidden h-10 w-full bg-violet-200 md:block" />
@@ -75,30 +82,34 @@ const Featured: React.FC = () => {
         <div className="h-[3px] w-full bg-zinc-200 md:hidden" />
       </Container>
 
-      <Container className="flex items-start justify-between gap-5 py-20 lg:py-32">
-        <div className="flex flex-1 items-baseline">
-          <Back
-            color="#FF8A65"
-            className="mr-6 hidden h-7 w-7 md:block lg:h-12 lg:w-12"
-          />
+      <Container>
+        <Link
+          className="flex items-start justify-between gap-5 py-32 md:py-20 lg:py-32"
+          href={url}
+        >
+          <div className="flex flex-1 items-baseline">
+            <Back
+              color="#FF8A65"
+              className="mr-6 hidden h-7 w-7 md:block lg:h-12 lg:w-12"
+            />
 
-          <div>
-            <h2 className="font-serif text-6xl text-zinc-700 md:text-[2rem] lg:text-6xl">
-              Featured Projects
-            </h2>
+            <div>
+              <h2 className="font-serif text-6xl text-zinc-700 md:text-[2rem] lg:text-6xl">
+                {title}
+              </h2>
 
-            <p className="mt-10 w-2/3 font-sans text-2xl text-zinc-500 md:mt-3 md:text-xs lg:text-base">
-              A selection of in house projects, client projects and upcoming
-              projects in our area&apos;s of practice.
-            </p>
+              <p className="mt-10 w-3/4 md:w-2/3 font-sans text-2xl text-zinc-500 md:mt-3 md:text-xs lg:text-base">
+                {caption}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <SmileIcon />
-        <ArrowCircleRight2
-          variant="Bold"
-          className="flex h-32 w-32 -rotate-45 text-light-salmon md:hidden"
-        />
+          <SmileIcon />
+          <ArrowCircleRight2
+            variant="Bold"
+            className="flex h-32 w-32 -rotate-45 text-light-salmon md:hidden"
+          />
+        </Link>
       </Container>
     </>
   );

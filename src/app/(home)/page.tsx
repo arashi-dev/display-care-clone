@@ -4,7 +4,7 @@ import HeroAnimation from "./_components/HeroAnimation";
 import About from "./_components/About";
 import Vision from "./_components/Vision";
 import Principles from "./_components/Principles";
-import Featured from "./_components/Featured";
+import Featured from "../_components/Featured";
 
 const Page = () => {
   return (
@@ -19,7 +19,11 @@ const Page = () => {
 
       <Principles />
 
-      <Featured />
+      <Featured
+        title="Featured Projects"
+        caption="A selection of in house projects, client projects and upcoming projects in our area's of practice."
+        url="/works"
+      />
     </div>
   );
 };
