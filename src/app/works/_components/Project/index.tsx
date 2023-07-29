@@ -1,3 +1,5 @@
+"use client"
+
 import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight } from "iconsax-react";
 import Image, { type ImageProps } from "next/image";

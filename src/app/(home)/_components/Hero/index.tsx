@@ -5,6 +5,7 @@ import { type Variants, motion, MotionConfig } from "framer-motion";
 import Container from "~/app/_components/Container";
 import ScrollDownButton from "~/app/_components/ScrollDownButton";
 import TitleTextWrapper from "~/app/_components/TitleTextWrapper";
+import TextListAnimation from "~/app/_components/TextListAnimation";
 
 type FlowerSvgProps = {
   className?: string;
@@ -42,6 +43,12 @@ const opacityVariants: Variants = {
     opacity: 1,
   },
 };
+
+const texts = [
+  "We research, plan, design and innovate",
+  "to provide better outcomes for those in",
+  "care.",
+];
 
 const Hero = () => {
   return (
@@ -92,23 +99,10 @@ const Hero = () => {
             </span>
           </h1>
 
-          <p className="ml-4 mt-10 text-left font-sans text-sm/tight text-zinc-500 md:ml-[17vw] md:mt-20 md:text-base/tight">
-            <span className="block overflow-hidden">
-              <motion.span variants={fadeInVariants} className="block">
-                We research, plan, design and innovate
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden">
-              <motion.span variants={fadeInVariants} className="block">
-                to provide better outcomes for those in
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden">
-              <motion.span variants={fadeInVariants} className="block">
-                care.
-              </motion.span>
-            </span>
-          </p>
+          <TextListAnimation
+            texts={texts}
+            className="ml-4 mt-10 md:ml-[17vw] md:mt-20"
+          />
 
           <ScrollDownButton />
         </Container>
