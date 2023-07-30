@@ -34,7 +34,7 @@ const Resource: React.FC<ResourceProps> = ({ data, className }) => {
           src={data.imageSrc}
           alt={data.title}
           fill
-          objectFit="cover"
+          className="object-cover"
           transition={{ duration: 0.5, ease: "easeOut" }}
         />
       </div>
