@@ -1,10 +1,11 @@
-import { Book1, MagicStar, Sun1 } from "iconsax-react";
+import { ArrowLeft, Book1, MagicStar, Sun1 } from "iconsax-react";
 import { type Icon } from "iconsax-react";
 import type Link from "next/link";
 
 export type NavLinkColors = "lightSalmon" | "rose" | "mediumPurple" | "green"
 
 export type NavLinkData = {
+  id: string;
   href: React.ComponentProps<typeof Link>["href"];
   label: string;
   iconComponent?: Icon;
@@ -12,6 +13,7 @@ export type NavLinkData = {
 };
 
 export const AboutLink: NavLinkData = {
+  id: "1",
   color: "mediumPurple",
   iconComponent: MagicStar,
   label: "About",
@@ -19,6 +21,7 @@ export const AboutLink: NavLinkData = {
 };
 
 export const HomeLink: NavLinkData = {
+  id: "2",
   color: "mediumPurple",
   iconComponent: MagicStar,
   label: "Home",
@@ -26,6 +29,7 @@ export const HomeLink: NavLinkData = {
 };
 
 export const ResourcesLink: NavLinkData = {
+  id: "3",
   color: "rose",
   iconComponent: Book1,
   label: "Resources",
@@ -33,13 +37,23 @@ export const ResourcesLink: NavLinkData = {
 };
 
 export const WorksLink: NavLinkData = {
+  id: "4",
   color: "lightSalmon",
   iconComponent: Sun1,
   label: "Works",
   href: "/works",
 };
 
+export const BackToWorksLink: NavLinkData = {
+  id: ResourcesLink.id,
+  href: WorksLink.href,
+  iconComponent: ArrowLeft,
+  label: "Back",
+  color: "rose",
+};
+
 export const ContactLink: NavLinkData = {
+  id: "5",
   color: "green",
   label: "Contact",
   href: "#",

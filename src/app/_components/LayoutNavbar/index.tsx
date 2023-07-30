@@ -35,7 +35,9 @@ const LayoutNavbar: React.FC<LayoutNavbarProps> = ({ children, links }) => {
       )}
 
       <Main
-        linksAmount={width >= 768 ? links.length - 1 : 0}
+        linksAmount={
+          width >= 768 ? linksDetails.filter(({ active }) => !active).length : 0
+        }
         leftLinksAmount={width >= 768 ? leftLinksAmount : 0}
         isAnimating={isAnimating}
       >

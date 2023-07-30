@@ -58,6 +58,10 @@ const NavItem: React.FC<NavItemProps> = ({
         bgVariants[link.color]
       } ${isHidden ? "invisible" : "visible"}`}
       animate={controls}
+      exit={{
+        x: `${side === "left" ? "-" : ""}100%`,
+        transition: { bounce: 0.15, damping: 20, type: "spring" },
+      }}
       onClick={(e) => isAnimating && e.preventDefault()}
     >
       <MotionConfig transition={{ duration: 0.5 }}>

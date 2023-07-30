@@ -4,11 +4,13 @@ import React from "react";
 type TextListAnimationProps = {
   texts: string[];
   className?: string;
+  innerClassName?: string;
 };
 
 const TextListAnimation: React.FC<TextListAnimationProps> = ({
   texts,
   className,
+  innerClassName,
 }) => {
   return (
     <motion.div
@@ -20,7 +22,7 @@ const TextListAnimation: React.FC<TextListAnimationProps> = ({
       {texts.map((text) => (
         <p key={text} className="overflow-hidden">
           <motion.span
-            className="block"
+            className={`${innerClassName} block`}
             variants={{ initial: { y: "100%" }, animate: { y: 0 } }}
             transition={{ duration: 0.7, ease: "easeInOut" }}
           >

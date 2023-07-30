@@ -112,7 +112,8 @@ export const useAnimationQueue = () => {
 };
 
 export type LinkDetail = {
-  index: number;
+  id: string;
+  // index: number;
   order: number;
   side: "left" | "right";
   active: boolean;
@@ -121,22 +122,31 @@ export type LinkDetail = {
 export const useLinksDetails = (links: NavLinkData[]) => {
   const pathname = usePathname();
 
-  const [linksDetails, setLinksDetails] = useState<LinkDetail[]>(() =>
-    links.map((_, i) => ({
-      index: links.length - 1 - i,
-      order: i,
-      side: "left",
-      active: false,
-    })),
+  const mapLinks = useCallback(
+    () =>
+      [...links].reverse().map<LinkDetail>((_, i) => ({
+        id: _.id,
+        // index: links.length - 1 - i,
+        order: i,
+        side: "left",
+        active: false,
+      })),
+    [links],
   );
 
+  const [linksDetails, setLinksDetails] = useState<LinkDetail[]>(mapLinks);
+
+  useEffect(() => {
+    setLinksDetails(mapLinks);
+  }, [mapLinks]);
+
   const switchLinkSide = useCallback(
-    (prev: typeof linksDetails, index: number) => {
+    (prev: typeof linksDetails, id: string) => {
       const clone = [...prev]
         .sort((a, b) => a.order - b.order)
-        .filter((link) => link.index !== index);
+        .filter((link) => link.id !== id);
 
-      const target = prev.find((link) => link.index === index)!;
+      const target = prev.find((link) => link.id === id)!;
       const newSide = target.side === "right" ? "left" : "right";
 
       clone.push({
@@ -159,11 +169,11 @@ export const useLinksDetails = (links: NavLinkData[]) => {
   );
 
   const move = useCallback(
-    (index: number) => {
+    (id: string) => {
       setLinksDetails((prev) => {
         const clone = [...prev];
 
-        const target = clone.find((link) => link.index === index)!;
+        const target = clone.find((link) => link.id === id)!;
 
         const neighbors = clone
           .filter((link) => link.side === target.side)
@@ -172,11 +182,11 @@ export const useLinksDetails = (links: NavLinkData[]) => {
         const newDetails = neighbors
           .slice(neighbors.indexOf(target))
           .reverse()
-          .reduce((arr, { index }) => switchLinkSide(arr, index), clone);
+          .reduce((arr, { id }) => switchLinkSide(arr, id), clone);
 
         return newDetails.map((details) => ({
           ...details,
-          active: links[details.index]?.href === pathname,
+          active: links.find((link) => link.id === details.id)?.href === pathname,
         }));
       });
     },
@@ -184,7 +194,11 @@ export const useLinksDetails = (links: NavLinkData[]) => {
   );
 
   useEffect(() => {
-    move(links.findIndex((link) => link.href === pathname));
+    const link = links.find((link) => link.href === pathname);
+
+    if (link) {
+      move(link.id);
+    }
   }, [links, move, pathname]);
 
   return useMemo(
@@ -194,11 +208,11 @@ export const useLinksDetails = (links: NavLinkData[]) => {
           a.side === "right" ? a.order - b.order : b.order - a.order,
         )
         .sort(({ side }) => (side === "left" ? -1 : 1))
-        .map(({ index, order, side, active }, i, arr) => {
+        .map(({ id, order, side, active }, i, arr) => {
           const neighbors = arr.filter((link) => link.side === side);
 
           const indexInNeighbors = neighbors.findIndex(
-            (link) => link.index === index,
+            (link) => link.id === id,
           );
 
           return {
@@ -213,7 +227,7 @@ export const useLinksDetails = (links: NavLinkData[]) => {
               ? order - 1
               : order,
             side,
-            index,
+            id,
             active,
           };
         }),
