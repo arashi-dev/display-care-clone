@@ -5,6 +5,7 @@ import { type LinkDetail, useAnimationQueue } from "./hooks";
 import NavItem from "./NavItem";
 import { type NavLinkData } from "../links";
 import { AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 type DesktopNavProps = {
   linksDetails: LinkDetail[];
@@ -17,12 +18,15 @@ const DesktopNav: React.FC<DesktopNavProps> = ({
   links,
   onAnimateStateChange,
 }) => {
+  const pathname = usePathname()
   const { addAnimation, isAnimating } = useAnimationQueue();
 
   useEffect(
     () => onAnimateStateChange(isAnimating),
     [isAnimating, onAnimateStateChange],
   );
+
+  console.log("linksDetails",linksDetails)
 
   return (
     <div>
@@ -38,6 +42,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({
               addAnimation={addAnimation}
               isAnimating={isAnimating}
               hide={active}
+              pathname={pathname}
             />
           ))}
       </AnimatePresence>

@@ -3,6 +3,8 @@ import {
   type AnimationControls,
   type Transition,
   type AnimationDefinition,
+  motionValue,
+  animate,
 } from "framer-motion";
 import {
   useCallback,
@@ -186,7 +188,8 @@ export const useLinksDetails = (links: NavLinkData[]) => {
 
         return newDetails.map((details) => ({
           ...details,
-          active: links.find((link) => link.id === details.id)?.href === pathname,
+          active:
+            links.find((link) => link.id === details.id)?.href === pathname,
         }));
       });
     },
@@ -208,7 +211,7 @@ export const useLinksDetails = (links: NavLinkData[]) => {
           a.side === "right" ? a.order - b.order : b.order - a.order,
         )
         .sort(({ side }) => (side === "left" ? -1 : 1))
-        .map(({ id, order, side, active }, i, arr) => {
+        .map(({ id, order, side, active }, _, arr) => {
           const neighbors = arr.filter((link) => link.side === side);
 
           const indexInNeighbors = neighbors.findIndex(
@@ -315,11 +318,13 @@ export const useNavItemAnimation = ({
   order,
   side,
   controls,
-  label,
+  id,
   addAnimation,
+  pathname,
 }: Pick<NavItemProps, "hide" | "order" | "side" | "addAnimation"> & {
   controls: AnimationControls;
-  label: string;
+  id: string;
+  pathname: string;
 }) => {
   const isMountedRef = useRef(false);
 
@@ -352,12 +357,12 @@ export const useNavItemAnimation = ({
       void next();
     };
 
-    addAnimation(label, animation);
+    addAnimation(id, animation);
 
     return () => {
       isMounted = false;
     };
-  }, [addAnimation, controls, firstEdgeStyles, label, secondEdgeStyles]);
+  }, [addAnimation, controls, firstEdgeStyles, id, secondEdgeStyles]);
 
   useEffect(() => {
     if (!isMountedRef.current) {
@@ -365,6 +370,7 @@ export const useNavItemAnimation = ({
     }
 
     const animation = async (next: () => Promise<void>) => {
+      console.log("animating", id);
       if (prevHide && !hide) {
         controls.set({
           ...prevFirstEdgeStyles,
@@ -389,18 +395,21 @@ export const useNavItemAnimation = ({
       await sleep(500);
     };
 
-    addAnimation(label, animation);
+    console.log("addAnimation()", id);
+
+    addAnimation(id, animation);
   }, [
     addAnimation,
     controls,
     fadeInAnimation,
     firstEdgeStyles,
     hide,
-    label,
+    id,
     prevFirstEdgeStyles,
     prevHide,
     prevSecondEdgeStyles,
     secondEdgeStyles,
+    pathname,
   ]);
 
   const createEdgeStyles = useCreateEdgeStyles();
@@ -421,3 +430,180 @@ export const useNavItemAnimation = ({
   useWindowEvent("resize", resizeHandler);
   useWindowEvent("orientationchange", resizeHandler);
 };
+
+class AnimatorNode {
+  id: string;
+
+  motionValues = {
+    firstEdge: {
+      left: motionValue(0),
+      right: motionValue(0),
+    },
+    secondEdge: {
+      left: motionValue(0),
+      right: motionValue(0),
+    },
+  };
+
+  constructor(
+    private animator: Animator,
+    public data: {
+      id: string;
+      side: "right" | "left";
+      order: number;
+      hide: boolean;
+    },
+  ) {
+    this.id = data.id;
+    this.setEdges()
+  }
+
+  moveTo(side: "right" | "left") {
+    const others = this.animator.nodes.filter(
+      (node) => node.data.side === this.data.side,
+    );
+
+    const reversed = [...others].reverse();
+
+    const afters = reversed.slice(reversed.indexOf(this) + 1);
+
+    afters.map((node) => node.moveTo(side));
+
+    if (this.data.hide) {
+      const visibleInSameSide = this.animator.nodes.filter(
+        (node) => node.data.side === this.data.side && !node.data.hide,
+      );
+
+      this.update(this.data.side, true, visibleInSameSide.length);
+      this?.setEdges();
+    }
+
+    const visibleInOppositeSide = this.animator.nodes.filter(
+      (node) => node.data.side === side && !node.data.hide,
+    );
+
+    this.update(side, false, visibleInOppositeSide.length);
+    this?.animateEdges();
+  }
+
+  private animateEdges() {
+    const [firstEdge, secondEdge] = this.createEdgeStyles();
+
+    const animates: (() => Promise<void>)[] = [];
+
+    const values = [
+      [this.motionValues.firstEdge.left, firstEdge.left],
+      [this.motionValues.firstEdge.right, firstEdge.right],
+      [this.motionValues.secondEdge.left, secondEdge.left],
+      [this.motionValues.secondEdge.right, secondEdge.right],
+    ] as const;
+
+    values.forEach(([motionValue, value]) => {
+      if (typeof value === "undefined") return;
+
+      animates.push(async () => await animate(motionValue, value, transition));
+    });
+  }
+
+  private setEdges() {
+    const [firstEdge, secondEdge] = this.createEdgeStyles();
+
+    if (firstEdge.left) this.motionValues.firstEdge.left.set(firstEdge.left);
+    if (firstEdge.right) this.motionValues.firstEdge.right.set(firstEdge.right);
+
+    if (secondEdge.left) this.motionValues.secondEdge.left.set(secondEdge.left);
+    if (secondEdge.right)
+      this.motionValues.secondEdge.right.set(secondEdge.right);
+  }
+
+  private update(side: "left" | "right", hide: boolean, order: number) {
+    this.data.side = side;
+    this.data.hide = hide;
+    this.data.order = order;
+    this.animator.sortNodes();
+  }
+
+  private createEdgeStyles() {
+    const { side, order, hide } = this.data;
+
+    const width = typeof window !== "undefined" ? window.innerWidth : 0;
+
+    const NAV_ITEM_WIDTH = width * 0.09;
+
+    const firstEdgeStyles = (
+      side === "right"
+        ? { right: order * NAV_ITEM_WIDTH }
+        : { left: order * NAV_ITEM_WIDTH }
+    ) satisfies AnimationDefinition;
+
+    const secondEdgeStyles = (
+      hide
+        ? side === "right"
+          ? { left: width - (firstEdgeStyles.right || 0) }
+          : { right: width - (firstEdgeStyles.left || 0) }
+        : side === "right"
+        ? { left: width - NAV_ITEM_WIDTH - order * NAV_ITEM_WIDTH }
+        : { right: width - NAV_ITEM_WIDTH - order * NAV_ITEM_WIDTH }
+    ) satisfies AnimationDefinition;
+
+    return [firstEdgeStyles, secondEdgeStyles] as const;
+  }
+}
+
+type Listener<T extends Array<unknown>> = (...args: T) => void;
+
+export class EventEmitter<EventMap extends Record<string, Array<unknown>>> {
+  private eventListeners: {
+    [K in keyof EventMap]?: Set<Listener<EventMap[K]>>;
+  } = {};
+
+  on<K extends keyof EventMap>(eventName: K, listener: Listener<EventMap[K]>) {
+    const listeners = this.eventListeners[eventName] ?? new Set();
+    listeners.add(listener);
+    this.eventListeners[eventName] = listeners;
+  }
+
+  emit<K extends keyof EventMap>(eventName: K, ...args: EventMap[K]) {
+    const listeners = this.eventListeners[eventName] ?? new Set();
+    for (const listener of listeners) {
+      listener(...args);
+    }
+  }
+}
+
+type EventsMap = {
+  animateStateChange: [isAnimating: boolean];
+}
+
+class Animator {
+  nodes: AnimatorNode[] = [];
+
+  events = new EventEmitter<EventsMap>()
+
+  constructor(
+    links: {
+      id: string;
+      side: "right" | "left";
+      order: number;
+      hide: boolean;
+    }[],
+  ) {
+    this.nodes = links.map((link) => new AnimatorNode(this, link));
+    this.sortNodes();
+  }
+
+  sortNodes() {
+    const leftSide = this.nodes
+      .filter((node) => node.data.side === "left")
+      .sort((a, b) => a.data.order - b.data.order);
+    const rightSide = this.nodes
+      .filter((node) => node.data.side === "right")
+      .sort((a, b) => b.data.order - a.data.order);
+
+    this.nodes = [...leftSide, ...rightSide];
+  }
+
+  node(id: string) {
+    return this.nodes.find((node) => node.id === id);
+  }
+}

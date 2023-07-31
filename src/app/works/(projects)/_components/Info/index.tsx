@@ -68,7 +68,7 @@ const Intro: React.FC<IntroProps> = ({
         />
       </div>
 
-      <div className="ml-5 mt-10 md:ml-0 md:mt-0 lg:mr-[10%]">
+      <div className="ml-5 mt-10 md:ml-0 md:mt-0 lg:mr-[5%] xl:mr-[10%]">
         <div className="grid h-max grid-cols-1 gap-2 md:grid-cols-2 md:gap-8">
           <Info label="Year" value={year} />
           <Info label="Role" value={role} />

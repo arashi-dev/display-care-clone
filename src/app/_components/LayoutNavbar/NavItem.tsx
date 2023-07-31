@@ -19,6 +19,7 @@ export type NavItemProps = {
   ) => void;
   isAnimating: boolean;
   hide: boolean;
+  pathname: string;
 };
 
 const NavItem: React.FC<NavItemProps> = ({
@@ -28,6 +29,7 @@ const NavItem: React.FC<NavItemProps> = ({
   side,
   order,
   link,
+  pathname
 }) => {
   const controls = useAnimation();
 
@@ -39,7 +41,8 @@ const NavItem: React.FC<NavItemProps> = ({
     hide,
     order,
     side,
-    label: link.label,
+    id: link.id,
+    pathname: "",
   });
 
   useEffect(() => {

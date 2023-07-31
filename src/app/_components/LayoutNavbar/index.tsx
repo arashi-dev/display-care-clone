@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLinksDetails } from "./hooks";
 import Main from "./Main";
 import { useViewportSize } from "@mantine/hooks";
@@ -23,6 +23,10 @@ const LayoutNavbar: React.FC<LayoutNavbarProps> = ({ children, links }) => {
         .length,
     [linksDetails],
   );
+
+  useEffect(() => {
+console.log("linksDetails",linksDetails)
+  }, [linksDetails])
 
   return (
     <div>

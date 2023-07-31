@@ -13,7 +13,7 @@ const NextProject: React.FC<NextProjectProps> = ({ label, url }) => {
     <Container className="pb-32 md:pb-40">
       <div className="mb-28 block h-[2px] w-full bg-black opacity-10 md:mb-36 md:h-px" />
 
-      <div className="mt-20 flex items-center justify-between md:w-5/12">
+      <div className="mt-20 flex items-center justify-between">
         <Link href={url} className="flex flex-col-reverse md:flex-col">
           <p className="font-sans text-lg/none text-black text-opacity-40 md:text-xs/none md:uppercase">
             Next Project
