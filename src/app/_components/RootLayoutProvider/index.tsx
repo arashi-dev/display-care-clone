@@ -14,8 +14,6 @@ const RootLayoutProviders: React.FC<React.PropsWithChildren> = ({
 }) => {
   const pathname = usePathname();
 
-  // if(pathname )
-
   const links = pathname.startsWith("/works/") ? worksLinks : mainLinks;
 
   return (
