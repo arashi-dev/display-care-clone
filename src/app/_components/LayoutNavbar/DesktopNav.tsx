@@ -1,48 +1,33 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { type LinkDetail, useAnimationQueue } from "./hooks";
+import React, { useEffect, useState } from "react";
+import { type AnimatorNode, type AnimatorProxy } from "./hooks";
 import NavItem from "./NavItem";
 import { type NavLinkData } from "../links";
 import { AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
 
 type DesktopNavProps = {
-  linksDetails: LinkDetail[];
   links: NavLinkData[];
-  onAnimateStateChange: (isAnimating: boolean) => void;
+  animator: AnimatorProxy;
 };
 
-const DesktopNav: React.FC<DesktopNavProps> = ({
-  linksDetails,
-  links,
-  onAnimateStateChange,
-}) => {
-  const pathname = usePathname()
-  const { addAnimation, isAnimating } = useAnimationQueue();
+const DesktopNav: React.FC<DesktopNavProps> = ({ links, animator }) => {
+  const [nodes, setNodes] = useState<AnimatorNode[]>(animator.nodes);
 
-  useEffect(
-    () => onAnimateStateChange(isAnimating),
-    [isAnimating, onAnimateStateChange],
-  );
-
-  console.log("linksDetails",linksDetails)
+  useEffect(() => animator.on("nodesChange", setNodes), [animator]);
 
   return (
     <div>
       <AnimatePresence>
-        {linksDetails
-          .filter(({ id }) => links.some(link => link.id === id))
-          .map(({ id, order, side, active }) => (
+        {nodes
+          .filter(({ id }) => links.some((link) => link.id === id))
+          .map((node) => (
             <NavItem
-              key={id}
-              link={links.find(link => link.id === id)!}
-              order={order}
-              side={side}
-              addAnimation={addAnimation}
-              isAnimating={isAnimating}
-              hide={active}
-              pathname={pathname}
+              key={node.id}
+              link={links.find((link) => link.id === node.id)!}
+              side={node.data.side}
+              hide={node.data.hide}
+              animator={animator}
             />
           ))}
       </AnimatePresence>

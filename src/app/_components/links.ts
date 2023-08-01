@@ -13,7 +13,7 @@ export type NavLinkData = {
 };
 
 export const AboutLink: NavLinkData = {
-  id: "1",
+  id: "About",
   color: "mediumPurple",
   iconComponent: MagicStar,
   label: "About",
@@ -29,7 +29,7 @@ export const HomeLink: NavLinkData = {
 };
 
 export const ResourcesLink: NavLinkData = {
-  id: "3",
+  id: "Resources",
   color: "rose",
   iconComponent: Book1,
   label: "Resources",
@@ -37,7 +37,7 @@ export const ResourcesLink: NavLinkData = {
 };
 
 export const WorksLink: NavLinkData = {
-  id: "4",
+  id: "Works",
   color: "lightSalmon",
   iconComponent: Sun1,
   label: "Works",

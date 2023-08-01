@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { MotionConfig, motion, useAnimation } from "framer-motion";
-import type { Promisable } from "type-fest";
+import { MotionConfig, type MotionStyle, motion } from "framer-motion";
 import { useState } from "react";
-import { useNavItemAnimation } from "./hooks";
+import { type AnimatorProxy } from "./hooks";
 import NavIcon from "./NavIcon";
 import { type NavLinkData, bgVariants } from "../links";
 
@@ -11,39 +10,19 @@ const MotionLink = motion(Link);
 
 export type NavItemProps = {
   link: NavLinkData;
-  order: number;
   side: "left" | "right";
-  addAnimation: (
-    key: string | number,
-    animation: (next: () => Promise<void>) => Promisable<void>,
-  ) => void;
-  isAnimating: boolean;
   hide: boolean;
-  pathname: string;
+  animator: AnimatorProxy;
 };
 
-const NavItem: React.FC<NavItemProps> = ({
-  hide,
-  isAnimating,
-  addAnimation,
-  side,
-  order,
-  link,
-  pathname
-}) => {
-  const controls = useAnimation();
-
+const NavItem: React.FC<NavItemProps> = ({ hide, side, link, animator }) => {
   const [isHidden, setIsHidden] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  useNavItemAnimation({
-    addAnimation,
-    controls,
-    hide,
-    order,
-    side,
-    id: link.id,
-    pathname: "",
-  });
+  useEffect(
+    () => animator.on("animateStateChange", setIsAnimating),
+    [animator],
+  );
 
   useEffect(() => {
     if (isAnimating) {
@@ -60,12 +39,17 @@ const NavItem: React.FC<NavItemProps> = ({
       className={`fixed top-0 z-10 h-screen overflow-hidden py-12 ${
         bgVariants[link.color]
       } ${isHidden ? "invisible" : "visible"}`}
-      animate={controls}
+      style={
+        {
+          ...animator.node(link.id)!.motionValues,
+        } as MotionStyle as never
+      }
+      animate={{ y: 0 }}
       exit={{
         x: `${side === "left" ? "-" : ""}100%`,
-        transition: { bounce: 0.15, damping: 20, type: "spring" },
       }}
       onClick={(e) => isAnimating && e.preventDefault()}
+      transition={{ bounce: 0.15, damping: 20, type: "spring" }}
     >
       <MotionConfig transition={{ duration: 0.5 }}>
         <motion.div

@@ -3,25 +3,44 @@
 import { useViewportSize } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LayoutContext } from "./contexts";
+import { type AnimatorNode, type AnimatorProxy } from "./hooks";
 
 type MainProps = React.PropsWithChildren<{
-  linksAmount: number;
-  leftLinksAmount: number;
-  isAnimating: boolean;
+  animator: AnimatorProxy;
 }>;
 
-const Main: React.FC<MainProps> = ({
-  leftLinksAmount,
-  linksAmount,
-  isAnimating,
-  children,
-}) => {
+const Main: React.FC<MainProps> = ({ animator, children }) => {
   const viewport = useViewportSize();
   const pathname = usePathname();
 
-  const width = viewport.width - linksAmount * viewport.width * 0.09;
+  const [linksAmount, setLinksAmount] = useState(0);
+  const [leftLinksAmount, setLeftLinksAmount] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const listener = (nodes: AnimatorNode[]) => {
+      setLinksAmount(nodes.filter((node) => !node.data.hide).length);
+      setLeftLinksAmount(
+        nodes.filter((node) => node.data.side === "left" && !node.data.hide)
+          .length,
+      );
+    };
+
+    listener(animator.nodes);
+    return animator.on("nodesChange", listener);
+  }, [animator]);
+
+  useEffect(
+    () => animator.on("animateStateChange", setIsAnimating),
+    [animator],
+  );
+
+  const width =
+    viewport.width < 768
+      ? "100vw"
+      : viewport.width - linksAmount * viewport.width * 0.09;
 
   return (
     <motion.main
@@ -32,7 +51,8 @@ const Main: React.FC<MainProps> = ({
       className="pt-24"
       style={{
         width,
-        marginLeft: leftLinksAmount * viewport.width * 0.09,
+        marginLeft:
+          viewport.width < 768 ? 0 : leftLinksAmount * viewport.width * 0.09,
       }}
     >
       <LayoutContext.Provider value={{ width }}>
