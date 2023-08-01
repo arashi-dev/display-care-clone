@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { MotionConfig, type MotionStyle, motion } from "framer-motion";
 import { useState } from "react";
-import { type AnimatorProxy } from "./hooks";
+import { transition, type AnimatorProxy } from "./hooks";
 import NavIcon from "./NavIcon";
 import { type NavLinkData, bgVariants } from "../links";
 
@@ -13,9 +13,16 @@ export type NavItemProps = {
   side: "left" | "right";
   hide: boolean;
   animator: AnimatorProxy;
+  isFirstRender: boolean;
 };
 
-const NavItem: React.FC<NavItemProps> = ({ hide, side, link, animator }) => {
+const NavItem: React.FC<NavItemProps> = ({
+  hide,
+  side,
+  link,
+  animator,
+  isFirstRender,
+}) => {
   const [isHidden, setIsHidden] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -33,25 +40,36 @@ const NavItem: React.FC<NavItemProps> = ({ hide, side, link, animator }) => {
   }, [hide, isAnimating]);
 
   return (
-    <MotionLink
-      initial={{ y: "100%" }}
-      href={link.href}
-      className={`fixed top-0 z-10 h-screen overflow-hidden py-12 ${
-        bgVariants[link.color]
-      } ${isHidden ? "invisible" : "visible"}`}
-      style={
-        {
-          ...animator.node(link.id)!.motionValues,
-        } as MotionStyle as never
-      }
-      animate={{ y: 0 }}
-      exit={{
-        x: `${side === "left" ? "-" : ""}100%`,
-      }}
-      onClick={(e) => isAnimating && e.preventDefault()}
-      transition={{ bounce: 0.15, damping: 20, type: "spring" }}
-    >
-      <MotionConfig transition={{ duration: 0.5 }}>
+    <MotionConfig transition={transition}>
+      <MotionLink
+        href={link.href}
+        className={`fixed top-0 z-10 h-screen overflow-hidden py-12 ${
+          isHidden ? "invisible" : "visible"
+        }`}
+        style={
+          {
+            ...animator.node(link.id)!.motionValues,
+          } as MotionStyle as never
+        }
+        initial={
+          !isFirstRender
+            ? {
+                x: `${side === "left" ? "-" : ""}100%`,
+              }
+            : undefined
+        }
+        animate={{ x: 0 }}
+        exit={{
+          x: `${side === "left" ? "-" : ""}100%`,
+        }}
+        onClick={(e) => isAnimating && e.preventDefault()}
+      >
+        <motion.div
+          variants={{ initial: { scaleY: 0 }, animate: { scaleY: 1 } }}
+          className={`${
+            bgVariants[link.color]
+          } absolute top-0 -z-10 block h-screen w-full origin-bottom`}
+        />
         <motion.div
           className="flex h-full flex-col items-center justify-between"
           initial="hidden"
@@ -81,8 +99,8 @@ const NavItem: React.FC<NavItemProps> = ({ hide, side, link, animator }) => {
             </motion.p>
           </div>
         </motion.div>
-      </MotionConfig>
-    </MotionLink>
+      </MotionLink>
+    </MotionConfig>
   );
 };
 

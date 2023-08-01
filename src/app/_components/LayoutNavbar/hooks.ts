@@ -8,7 +8,7 @@ import {
 import { type CSSProperties } from "react";
 import { type NavLinkData } from "../links";
 
-const transition = {
+export const transition = {
   bounce: 0.15,
   damping: 20,
   type: "spring",
