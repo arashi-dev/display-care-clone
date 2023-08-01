@@ -4,6 +4,11 @@ import RootLayoutProviders from "./_components/RootLayoutProvider";
 import Header from "./_components/Header";
 import { gilroy, giselle } from "./_fonts";
 import BodyBackground from "./_components/BodyBackground";
+import { createMetadata } from "./_utils/createMetadata";
+
+export const metadata = createMetadata({
+  title: "A disability oriented design studio",
+});
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (

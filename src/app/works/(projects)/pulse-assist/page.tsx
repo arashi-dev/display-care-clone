@@ -15,6 +15,11 @@ import BannerFourImage from "public/images/projects/pulse-assist-banner-4.png";
 import FullImageImage from "public/images/projects/pulse-assist-full-image.png";
 import OutComeLandscapeImage from "public/images/projects/pulse-assist-outcome-landscape.png";
 import OutComePortraitImage from "public/images/projects/pulse-assist-outcome-portrait.png";
+import { createMetadata } from "~/app/_utils/createMetadata";
+
+export const metadata = createMetadata({
+  title: "Pulse Assist",
+});
 
 const Page = () => {
   return (

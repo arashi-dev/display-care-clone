@@ -7,6 +7,11 @@ import Project, { type ProjectProps } from "./_components/Project";
 import PulseAssistImage from "public/images/project-pulse-assist.png";
 import SdaISaintImage from "public/images/project-sda-i-saint.png";
 import SpringFlatsImage from "public/images/project-spring-flats.png";
+import { createMetadata } from "../_utils/createMetadata";
+
+export const metadata = createMetadata({
+  title: "Works",
+});
 
 const projects: ProjectProps[] = [
   {

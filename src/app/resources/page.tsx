@@ -9,6 +9,11 @@ import A11yImage from "public/images/resource-a11y.png";
 import OzPlayerImage from "public/images/resource-oz-player.png";
 import CodaImage from "public/images/resource-coda.png";
 import PerfectlyNormalImage from "public/images/resource-perfectly-normal.png";
+import { createMetadata } from "../_utils/createMetadata";
+
+export const metadata = createMetadata({
+  title: "Resources",
+});
 
 const Page = () => {
   return (

@@ -13,6 +13,11 @@ import BannerTwoImage from "public/images/projects/spring-flats-banner-2.png";
 import BannerThreeImage from "public/images/projects/spring-flats-banner-3.png";
 import FullImageImage from "public/images/projects/spring-flats-full-image.png";
 import DavidJohnsonImage from "public/images/projects/spring-flats-david-johnson.png";
+import { createMetadata } from "~/app/_utils/createMetadata";
+
+export const metadata = createMetadata({
+  title: "Spring Flats",
+});
 
 const Page = () => {
   return (

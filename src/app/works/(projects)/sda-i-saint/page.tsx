@@ -15,6 +15,11 @@ import FullImageImage from "public/images/projects/sda-full-image.png";
 import OutComeLandscapeImage from "public/images/projects/sda-outcome-landscape.png";
 import OutComePortraitImage from "public/images/projects/sda-outcome-portrait.png";
 import BruceAllomImage from "public/images/projects/sda-bruce-allom.jpg";
+import { createMetadata } from "~/app/_utils/createMetadata";
+
+export const metadata = createMetadata({
+  title: "SDA I-saint",
+});
 
 const Page = () => {
   return (
