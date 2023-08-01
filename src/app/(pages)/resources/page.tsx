@@ -1,7 +1,6 @@
 import React from "react";
 import Hero from "./_components/Hero";
 import Resource from "./_components/Resource";
-import Container from "../_components/Container";
 
 import FearnleyImage from "public/images/resource-fearnley.jpg";
 import AccessImage from "public/images/resource-access.png";
@@ -9,7 +8,8 @@ import A11yImage from "public/images/resource-a11y.png";
 import OzPlayerImage from "public/images/resource-oz-player.png";
 import CodaImage from "public/images/resource-coda.png";
 import PerfectlyNormalImage from "public/images/resource-perfectly-normal.png";
-import { createMetadata } from "../_utils/createMetadata";
+import Container from "~/app/_components/Container";
+import { createMetadata } from "~/app/_utils/createMetadata";
 
 export const metadata = createMetadata({
   title: "Resources",

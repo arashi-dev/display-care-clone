@@ -4,7 +4,12 @@ import HeroAnimation from "./_components/HeroAnimation";
 import About from "./_components/About";
 import Vision from "./_components/Vision";
 import Principles from "./_components/Principles";
-import Featured from "../_components/Featured";
+import { createMetadata } from "~/app/_utils/createMetadata";
+import Featured from "~/app/_components/Featured";
+
+export const metadata = createMetadata({
+  title: "A disability oriented design studio",
+});
 
 const Page = () => {
   return (

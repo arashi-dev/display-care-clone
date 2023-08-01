@@ -1,9 +1,9 @@
 import { type Metadata } from "next";
 
 type MetadataInput = {
-  title: string;
+  title?: string;
 };
 
-export const createMetadata = (metadata: MetadataInput): Metadata => ({
-  title: `Display — ${metadata.title}`,
+export const createMetadata = (metadata: MetadataInput = {}): Metadata => ({
+  title: metadata?.title ? `Display — ${metadata.title}` : "Dislpay",
 });

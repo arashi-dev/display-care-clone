@@ -1,13 +1,13 @@
 import React from "react";
 import Services from "./_components/Services";
-import Container from "../_components/Container";
-import Featured from "../_components/Featured";
 import Hero from "./_components/Hero";
 import Project, { type ProjectProps } from "./_components/Project";
 import PulseAssistImage from "public/images/project-pulse-assist.png";
 import SdaISaintImage from "public/images/project-sda-i-saint.png";
 import SpringFlatsImage from "public/images/project-spring-flats.png";
-import { createMetadata } from "../_utils/createMetadata";
+import { createMetadata } from "~/app/_utils/createMetadata";
+import Container from "~/app/_components/Container";
+import Featured from "~/app/_components/Featured";
 
 export const metadata = createMetadata({
   title: "Works",
