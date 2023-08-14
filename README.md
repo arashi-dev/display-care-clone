@@ -16,6 +16,7 @@ The main motivation behind this project was to test my skills and push myself to
 3. typescript
 4. @mantine/hooks
 5. create-t3-app
+6. framer motion (animations)
 
 ## How to Run
 
